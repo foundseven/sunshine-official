@@ -1,11 +1,79 @@
 #include "rlImGui.h"
+#include "imgui.h"
 #include "raylib.h"
 #include <vector>
+#include <raylib.h>
+#include <raymath.h>
+
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+//2
+//a
+class Rigidbody 
+{
 
+public:
+
+    Vector2 position;
+    Vector2 velocity;
+
+    Rigidbody(float x = 0.0f, float y = 0.0f, float vx = 0.0f, float vy = 0.0f)
+        : position({ x, y }), velocity({ vx, vy }) {}
+};
+
+//b
+class Agent
+{
+
+public:
+
+    Rigidbody rigidbody;
+   // Sprite sprite;
+    float maxSpeed;
+    float maxAcceleration;
+
+    Agent(float x = 0.0f, float y = 0.0f, float vx = 0.0f, float vy = 0.0f)
+        : rigidbody(x, y, vx, vy), maxSpeed(0.0f), maxAcceleration(0.0f) {}
+
+};
+
+//c
+void UpdateRigidbody(Rigidbody& rigidbody, float deltaTime)
+{
+    rigidbody.position.x += rigidbody.velocity.x * deltaTime;
+    rigidbody.position.y += rigidbody.velocity.y * deltaTime;
+
+}
+
+//d
+std::vector<Agent> agents;
+
+void UpdateAgents(float deltaTime) 
+{
+    for (Agent& agent : agents) 
+    {
+        UpdateRigidbody(agent.rigidbody, deltaTime);
+    }
+}
+
+//3
+Vector2 Seek(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
+{
+    //?
+}
+
+//this is for the seek if key is pressed
+Vector2 AddVector2(const Vector2& a, const Vector2& b)
+{
+    return { a.x + b.x, a.y + b.y };
+}
+
+Vector2 Flee(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
+{
+    //?
+}
 
 // main game loop
 int main(void)
@@ -77,6 +145,18 @@ int main(void)
         if (IsKeyDown(KEY_UP)) ballPos.y -= 2.0f;
         if (IsKeyDown(KEY_DOWN)) ballPos.y += 2.0f;
 
+        //for seek and flee
+        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) 
+        {
+            Vector2 targetPosition = GetMousePosition();
+
+            for (Agent& agent : agents) 
+            {
+                Vector2 acceleration = Seek(agent.rigidbody.position, agent.rigidbody.velocity, targetPosition, agent.maxAcceleration);
+                agent.rigidbody.velocity = AddVector2(agent.rigidbody.velocity, acceleration);
+            };
+               
+        }
 
         // for background
         scrollingBack -= 0.1f;
