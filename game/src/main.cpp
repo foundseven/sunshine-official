@@ -1,6 +1,7 @@
 #include "rlImGui.h"
 #include "imgui.h"
 #include "raylib.h"
+#include "math.h"
 #include <vector>
 #include <raylib.h>
 #include <raymath.h>
@@ -61,7 +62,7 @@ void UpdateAgents(float deltaTime)
 //3
 Vector2 Seek(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
 {
-    //?
+    
 }
 
 //this is for the seek if key is pressed
@@ -83,7 +84,16 @@ int main(void)
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");//drawing the screen
     SetTargetFPS(60); //target frame rate
+    rlImGuiSetup(true);
+
     
+
+    Vector2 position = { 100 , 100 }; //px
+    Vector2 velocity = { 10 , 0 }; //px/s
+    Vector2 acceleration = { 0 , 50 }; //px/s/s
+    float maxSpeed = 100;
+    float maxAccel = 100;
+
 
     //call on the ball
     Vector2 ballPos = { (float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2 };
@@ -137,7 +147,7 @@ int main(void)
 
 
         ///////////////////////////////////update//////////////////////////////////////
-       
+        const float dt = GetFrameTime();
 
         //is key pressed
         if (IsKeyDown(KEY_RIGHT)) ballPos.x += 2.0f;
@@ -192,6 +202,7 @@ int main(void)
 
         ClearBackground(RAYWHITE);
 
+        rlImGuiBegin();
 
         //drawing text onto the screen
         DrawText("Would ya look at that!", 16, 9, 7, RED);
@@ -239,7 +250,7 @@ int main(void)
         //end draw
         EndDrawing();
 
-
+        rlImGuiEnd();
     }
     ///////////////////////////// de init ////////////////////////////
 
