@@ -4,7 +4,7 @@
 #include "math.h"
 #include <vector>
 #include <raylib.h>
-#include <raymath.h>
+
 
 
 #define SCREEN_WIDTH 1280
@@ -60,10 +60,10 @@ void UpdateAgents(float deltaTime)
 }
 
 //3
-Vector2 Seek(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
-{
-    
-}
+//Vector2 Seek(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
+//{
+//    
+//}
 
 //this is for the seek if key is pressed
 Vector2 AddVector2(const Vector2& a, const Vector2& b)
@@ -71,10 +71,10 @@ Vector2 AddVector2(const Vector2& a, const Vector2& b)
     return { a.x + b.x, a.y + b.y };
 }
 
-Vector2 Flee(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
-{
-    //?
-}
+//Vector2 Flee(const Vector2& agentPos, const Vector2& agentVel, const Vector2& targetPos, float maxAcceleration)
+//{
+//    //?
+//}
 
 // main game loop
 int main(void)
@@ -156,7 +156,7 @@ int main(void)
         if (IsKeyDown(KEY_DOWN)) ballPos.y += 2.0f;
 
         //for seek and flee
-        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) 
+        /*if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) 
         {
             Vector2 targetPosition = GetMousePosition();
 
@@ -166,7 +166,7 @@ int main(void)
                 agent.rigidbody.velocity = AddVector2(agent.rigidbody.velocity, acceleration);
             };
                
-        }
+        }*/
 
         // for background
         scrollingBack -= 0.1f;
@@ -239,7 +239,7 @@ int main(void)
         DrawLineV(position, position + velocity, RED);
         DrawLineV(position, position + acceleration, GREEN);
 
-        position = WrapAroundScreen(position);
+       // position = WrapAroundScreen(position);
 
         DrawFPS(10, 10);
 
@@ -281,6 +281,7 @@ int main(void)
     CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
 
     rlImGuiShutdown();
+
     CloseWindow();
     
 }
