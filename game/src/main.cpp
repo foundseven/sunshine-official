@@ -211,7 +211,7 @@ int main(void)
         //update kine sim
         Vector2 displacement = velocity * dt; //px/s * s
       //  Vector2 deltaV = acceleration * 0.5f;
-        position = position + displacement + 0.5f * acceleration * dt * dt;
+        position = position + displacement + acceleration * dt * dt * 0.5f;
         velocity = velocity + acceleration * dt; //px/s + px/s/s * s ... adding a v + v
 
 
