@@ -2117,7 +2117,7 @@ RMAPI Vector2 operator-(const Vector2& a, const Vector2& b)
     return Subtract(a, b);
 }
 
-RMAPI Vector2 operator*(const Vector2& a, const Vector2& b)
+RMAPI Vector2 operator*(const Vector2& b, const Vector2& a)
 {
     return Multiply(a, b);
 }

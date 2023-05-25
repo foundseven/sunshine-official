@@ -147,7 +147,7 @@ int main(void)
 
 
         ///////////////////////////////////update//////////////////////////////////////
-        const float dt = GetFrameTime();
+        const float dt = GetFrameTime(); // time between frmes
 
         //is key pressed
         if (IsKeyDown(KEY_RIGHT)) ballPos.x += 2.0f;
@@ -203,6 +203,17 @@ int main(void)
         ClearBackground(RAYWHITE);
 
         rlImGuiBegin();
+        ImGui::SliderFloat2("pos", &(position.x), 0, SCREEN_WIDTH);
+        ImGui::DragFloat2("vel", &(velocity.x), 1, -maxSpeed, maxSpeed);
+        ImGui::DragFloat2("accel", &(acceleration.x), 1, -maxAccel, maxAccel);
+        rlImGuiEnd();
+
+        //update kine sim
+        Vector2 displacement = velocity * dt; //px/s * s
+      //  Vector2 deltaV = acceleration * 0.5f;
+        position = position + displacement + 0.5f * acceleration * dt * dt;
+        velocity = velocity + acceleration * dt; //px/s + px/s/s * s ... adding a v + v
+
 
         //drawing text onto the screen
         DrawText("Would ya look at that!", 16, 9, 7, RED);
@@ -223,6 +234,14 @@ int main(void)
         //for circles
         DrawCircleV(boxA, 50, boxAColor);
         DrawCircleV(boxB, 50, boxBColor);
+
+        DrawCircleV(position, 50, BLACK);
+        DrawLineV(position, position + velocity, RED);
+        DrawLineV(position, position + acceleration, GREEN);
+
+        position = WrapAroundScreen(position);
+
+        DrawFPS(10, 10);
 
         // Draw time bar
         DrawRectangle(20, SCREEN_HEIGHT - 20 - 12, SCREEN_WIDTH - 40, 12, LIGHTGRAY);
@@ -250,7 +269,7 @@ int main(void)
         //end draw
         EndDrawing();
 
-        rlImGuiEnd();
+       
     }
     ///////////////////////////// de init ////////////////////////////
 
@@ -261,7 +280,7 @@ int main(void)
 
     CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
 
-
+    rlImGuiShutdown();
     CloseWindow();
     
 }
